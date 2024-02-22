@@ -1,0 +1,33 @@
+﻿@model UserClaimViewModel
+
+@{
+    ViewData["Title"] = "ManageClaims";
+}
+
+
+<div style="padding-bottom:7vh;margin:3%">
+
+    <div style="padding:3%;box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;border-radius:12px;">
+        <h1>ManageClaims</h1>
+        <h6>User Name : @ViewBag.UserName</h6>
+        <form asp-action="ManageClaims">
+            <div class="card">
+                <div class="card-body">
+                    @for (var i = 0; i < Model.Claims.Count; i++)
+                    {
+                        <div class="form-check">
+                            <input type="hidden" asp-for="@Model.Claims[i].ClaimType">
+                            <input type="hidden" value="@ViewBag.UserId" name="UserId">
+                            <input asp-for="@Model.Claims[i].isSelected" class="form-check-input">
+                            <label asp-for="@Model.Claims[i].isSelected" class="form-check-label">@Model.Claims[i].ClaimType</label>
+                        </div>
+                    }
+                </div>
+                <div class="card-footer" style="margin-top:3vh">
+                    <input type="submit" value="Update" class="btn btn-primary" style="margin-right:1vh"/>
+                    <a asp-action="ListOfUsers" class="btn btn-danger">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

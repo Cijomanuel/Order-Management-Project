@@ -1,0 +1,95 @@
+﻿@model ChangepasswordViewModel
+
+@{
+    ViewData["Title"] = "Manageuser";
+    Layout = "_MainPage";
+}
+
+
+        <!-- Section: Design Block -->
+
+        <section class="text-center" style="margin:-7% -14%;padding:0">
+
+            <!-- Background image -->
+
+            <div class="p-5 bg-image" style="
+                background-image: url('https://mdbootstrap.com/img/new/textures/full/171.jpg');
+                height: 200px!important;
+                background-position: center;
+                background-size: cover;"></div>
+            <!-- Background image -->
+
+
+            <section class="h-100" style="margin-top:-5%;text-align:left">
+                <div class="container" >
+                    <div class="row justify-content-sm-center h-100">
+                        <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
+
+                            <div>
+                                <div class="card shadow-lg">
+                                    <div class="card-body p-5">
+                                        <h1 class="fs-4 card-title fw-bold mb-4">Change Password</h1>
+                                        <form method="POST" class="needs-validation" asp-action="Manageuser" autocomplete="off">
+                                            <div class="mb-3">
+                                                <label class="mb-2 text-muted" for="email">Old Password</label>
+                                                <input asp-for="OldPassword" type="password" id="OldPassword" class="form-control" name="OldPassword" value="" required autofocus>
+                                                <span asp-validation-for="OldPassword" class="text-danger"></span>
+
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="mb-2 text-muted" for="email">New Password</label>
+                                                <input asp-for="NewPassword" type="password" id="NewPassword" class="form-control" name="NewPassword" value="" required autofocus>
+                                                <span asp-validation-for="NewPassword" class="text-danger"></span>
+
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="mb-2 text-muted" for="email">Confirm New Password</label>
+                                                <input asp-for="ConfirmPassword" type="password" id="ConfirmPassword" class="form-control" name="ConfirmPassword" value="" required autofocus>
+                                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p class="text-danger" style="font-size: 13px">
+                                                        @Html.ValidationMessage("IncorrectPassword")
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="" >
+                                                <button type="submit" class="btn btn-primary ms-auto" style="margin-right:1vw">
+                                                    Reset Password
+                                                </button>
+                                                <a class="btn btn-danger ms-auto" asp-action="Index" asp-controller="Order" >
+                                                    Cancel
+                                                </a>
+                                               
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="text-center mt-5 text-muted">
+                                    Copyright &copy; 2022 &mdash; UIS Global
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+        <!-- Section: Design Block -->
+
+<!-- Section: CSS styling -->
+@section styles{
+    <style>
+        body {
+            overflow: scroll;
+            overflow-x: hidden
+        }
+    </style>
+}
+
+
+    @section scripts{
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}
+

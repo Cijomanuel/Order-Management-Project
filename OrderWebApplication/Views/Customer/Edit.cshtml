@@ -1,0 +1,53 @@
+﻿@model OrderWebApplication.Entity.Models.Customer
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+<div style="padding-bottom:7vh;margin:3%">
+
+    <div style="padding:3%;box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;border-radius:12px;">
+        <h2>Edit Customer</h2>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="CustomerId" />
+                    <div class="form-group">
+                        <label asp-for="CustomerName" class="control-label" style="font-weight:bold"></label>
+                        <input asp-for="CustomerName" class="form-control" />
+                        <span asp-validation-for="CustomerName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address" class="control-label" style="font-weight:bold"></label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Mobile" class="control-label" style="font-weight:bold"></label>
+                        <input asp-for="Mobile" class="form-control" />
+                        <span asp-validation-for="Mobile" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label" style="font-weight:bold"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    @*<div class="form-group">
+                    <label asp-for="TranscationNo" class="control-label"></label>
+                    <input asp-for="TranscationNo" class="form-control" />
+                    <span asp-validation-for="TranscationNo" class="text-danger"></span>
+                    </div>*@
+                    <div class="form-group" style="margin-top:2vh">
+                        <input type="submit" value="Save" class="btn btn-primary" style="margin-right:1vw"/>
+                        
+                        <a asp-action="Index" class="btn btn-primary">Back to Customer List</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>

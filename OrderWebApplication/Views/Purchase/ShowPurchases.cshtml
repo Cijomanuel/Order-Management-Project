@@ -1,0 +1,158 @@
+﻿@model IEnumerable<OrderWebApplication.Entity.Models.PurchaseDetail>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+<link href="~/lib/datatables/css/dataTables.bootstrap4.css" rel="stylesheet" />
+<div style="padding-bottom:7vh;margin:3%;margin-top:7%">
+
+    <div style="padding:3%;box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;border-radius:12px;">
+        <h2>List of Purchases</h2>
+
+        <table class="table" id="table_id">
+            <thead>
+                <tr>
+                    <th>
+                        Purchase Date
+                    </th>
+                    <th>
+                        Vendor Name
+                    </th>
+                    <th>
+                        Purchase Amount
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@*Start<--CSS Styles-->Start*@
+
+
+@section Styles{
+    <style>
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+    }
+
+
+
+    @*End<--CSS Styles-->End*@
+
+    @*Start<--Js Scripts -->Start*@
+
+
+    @section Scripts{
+    <script>
+        $(document).ready(function() {
+            var data = []
+            $('#table_id').DataTable({
+                "processing": true,
+                "serverSide": false,
+                "filter": true,
+                "ajax": {
+                    "url": '@Url.Action("GetJson","Purchase")',
+                    "type": 'post',
+                    "datatype": "json",
+
+                },
+                "columns": [
+                    { "data": 'purchaseDatetime', name: "PurchaseDatetime", autoWidth: true },
+                    { "data": 'vendorName', name: "VendorName", autoWidth: true },
+                    { "data": 'purchaseAmount', name: "PurchaseAmount", autoWidth: true },
+                    {
+                        "render": function() {
+
+                            return '<a class="btn btn-primary dt-control">Details</a>';
+
+                        }
+                    }
+                ],
+            });
+
+            $.ajax({
+                url: '@Url.Action("GetJson","Purchase")',
+                type: "post",
+                dataType: "json",
+                success: function(finaldata) {
+                    data = finaldata;
+                    //console.log(finaldata)
+                }
+            });
+
+            function getRows(array) {
+                return (
+                    '<tr>' +
+                    '<td>' +
+                    array.purchaseId + '</td>' +
+                    '<td>' +
+                    array.productName + '</td>' +
+                    '<td>' +
+                    array.quantity + '</td>' +
+                    '<td>' +
+                    array.unitPrice + '</td>' +
+                    '<td>' +
+                    array.price + '</td>' +
+                    '</tr>'
+                )
+            };
+            /* Formatting function for row details - modify as you need */
+            function format(d) {
+                var tableData = '';
+                // `d` is the original data object for the row
+                for (var i = 0; i < d.purchases.length; i++) {
+                    tableData = tableData + getRows(d.purchases[i])
+                }
+                return (
+
+                    '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" id="table_id1" class="table table-stripped ">' +
+                    '<tr>' +
+                    '<th>Purchase Id:</th>' +
+                    '<th>Product Name:</th>' +
+                    '<th>Qty:</th>' +
+                    '<th>Unit Price:</th>' +
+                    '<th>Final Price:</th>' +
+                    '</tr>' +
+                    tableData +
+                    '</table>'
+                );
+            }
+            // Add event listener for opening and closing details
+            $('#table_id tbody').on('click', 'td .dt-control', function() {
+                var tr = $(this).closest('tr');
+
+                var table = $('#table_id').DataTable();
+                var row = table.row(tr);
+
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                } else {
+                    // Open this row
+                    row.child(format(row.data())).show();
+                    tr.addClass('shown');
+                }
+            });
+
+
+        })
+    </script>
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/datatables/js/dataTables.bootstrap4.js"></script>
+}
+
+    @*End<--Js Scripts -->End*@
+
+

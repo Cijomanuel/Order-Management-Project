@@ -1,0 +1,34 @@
+C:\Users\cijo.manuel\source\repos\OrderWebApplication\OrderWebApplication.Services\bin\Debug\net6.0\OrderWebApplication.Services.deps.json
+C:\Users\cijo.manuel\source\repos\OrderWebApplication\OrderWebApplication.Services\bin\Debug\net6.0\OrderWebApplication.Services.runtimeconfig.json
+C:\Users\cijo.manuel\source\repos\OrderWebApplication\OrderWebApplication.Services\bin\Debug\net6.0\OrderWebApplication.Services.dll
+C:\Users\cijo.manuel\source\repos\OrderWebApplication\OrderWebApplication.Services\bin\Debug\net6.0\OrderWebApplication.Services.pdb
+C:\Users\cijo.manuel\source\repos\OrderWebApplication\OrderWebApplication.Services\bin\Debug\net6.0\OrderWebApplication.Entity.dll
+C:\Users\cijo.manuel\source\repos\OrderWebApplication\OrderWebApplication.Services\bin\Debug\net6.0\OrderWebApplication.Entity.pdb
+C:\Users\cijo.manuel\source\repos\OrderWebApplication\OrderWebApplication.Services\obj\Debug\net6.0\OrderWebApplication.Services.csproj.AssemblyReference.cache
+C:\Users\cijo.manuel\source\repos\OrderWebApplication\OrderWebApplication.Services\obj\Debug\net6.0\OrderWebApplication.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\cijo.manuel\source\repos\OrderWebApplication\OrderWebApplication.Services\obj\Debug\net6.0\OrderWebApplication.Services.AssemblyInfoInputs.cache
+C:\Users\cijo.manuel\source\repos\OrderWebApplication\OrderWebApplication.Services\obj\Debug\net6.0\OrderWebApplication.Services.AssemblyInfo.cs
+C:\Users\cijo.manuel\source\repos\OrderWebApplication\OrderWebApplication.Services\obj\Debug\net6.0\OrderWebApplication.Services.csproj.CoreCompileInputs.cache
+C:\Users\cijo.manuel\source\repos\OrderWebApplication\OrderWebApplication.Services\obj\Debug\net6.0\OrderWebApplication.Services.csproj.CopyComplete
+C:\Users\cijo.manuel\source\repos\OrderWebApplication\OrderWebApplication.Services\obj\Debug\net6.0\OrderWebApplication.Services.dll
+C:\Users\cijo.manuel\source\repos\OrderWebApplication\OrderWebApplication.Services\obj\Debug\net6.0\refint\OrderWebApplication.Services.dll
+C:\Users\cijo.manuel\source\repos\OrderWebApplication\OrderWebApplication.Services\obj\Debug\net6.0\OrderWebApplication.Services.pdb
+C:\Users\cijo.manuel\source\repos\OrderWebApplication\OrderWebApplication.Services\obj\Debug\net6.0\OrderWebApplication.Services.genruntimeconfig.cache
+C:\Users\cijo.manuel\source\repos\OrderWebApplication\OrderWebApplication.Services\obj\Debug\net6.0\ref\OrderWebApplication.Services.dll
+D:\Training Projects\OrderWebApplication\OrderWebApplication.Services\bin\Debug\net6.0\OrderWebApplication.Services.deps.json
+D:\Training Projects\OrderWebApplication\OrderWebApplication.Services\bin\Debug\net6.0\OrderWebApplication.Services.runtimeconfig.json
+D:\Training Projects\OrderWebApplication\OrderWebApplication.Services\bin\Debug\net6.0\OrderWebApplication.Services.dll
+D:\Training Projects\OrderWebApplication\OrderWebApplication.Services\bin\Debug\net6.0\OrderWebApplication.Services.pdb
+D:\Training Projects\OrderWebApplication\OrderWebApplication.Services\bin\Debug\net6.0\OrderWebApplication.Entity.dll
+D:\Training Projects\OrderWebApplication\OrderWebApplication.Services\bin\Debug\net6.0\OrderWebApplication.Entity.pdb
+D:\Training Projects\OrderWebApplication\OrderWebApplication.Services\obj\Debug\net6.0\OrderWebApplication.Services.csproj.AssemblyReference.cache
+D:\Training Projects\OrderWebApplication\OrderWebApplication.Services\obj\Debug\net6.0\OrderWebApplication.Services.GeneratedMSBuildEditorConfig.editorconfig
+D:\Training Projects\OrderWebApplication\OrderWebApplication.Services\obj\Debug\net6.0\OrderWebApplication.Services.AssemblyInfoInputs.cache
+D:\Training Projects\OrderWebApplication\OrderWebApplication.Services\obj\Debug\net6.0\OrderWebApplication.Services.AssemblyInfo.cs
+D:\Training Projects\OrderWebApplication\OrderWebApplication.Services\obj\Debug\net6.0\OrderWebApplication.Services.csproj.CoreCompileInputs.cache
+D:\Training Projects\OrderWebApplication\OrderWebApplication.Services\obj\Debug\net6.0\OrderWebApplication.Services.csproj.CopyComplete
+D:\Training Projects\OrderWebApplication\OrderWebApplication.Services\obj\Debug\net6.0\OrderWebApplication.Services.dll
+D:\Training Projects\OrderWebApplication\OrderWebApplication.Services\obj\Debug\net6.0\refint\OrderWebApplication.Services.dll
+D:\Training Projects\OrderWebApplication\OrderWebApplication.Services\obj\Debug\net6.0\OrderWebApplication.Services.pdb
+D:\Training Projects\OrderWebApplication\OrderWebApplication.Services\obj\Debug\net6.0\OrderWebApplication.Services.genruntimeconfig.cache
+D:\Training Projects\OrderWebApplication\OrderWebApplication.Services\obj\Debug\net6.0\ref\OrderWebApplication.Services.dll

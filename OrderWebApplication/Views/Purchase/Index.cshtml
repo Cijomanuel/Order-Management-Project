@@ -1,0 +1,475 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    var obj = ViewBag.Products;
+}
+
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="~/lib/datatables/css/dataTables.bootstrap4.css" rel="stylesheet" />
+
+
+
+<div style="padding-bottom:7vh;">
+
+    @*Start<--Section for selection and display of required products with required quantity-->Start*@
+
+    <div style="">
+        <div style="padding:3%;box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;border-radius:12px;">
+            <h1>Vendor and Products Selection</h1>
+
+
+            @*Start<--Filter box setup-->Start*@
+
+
+            <link href="~/lib/datatables/css/dataTables.bootstrap4.css" rel="stylesheet" />
+            <div class="card">
+                <div class="card-body">
+
+                    <p>Select the vendor from given options. To add new vendor, goto Menu->Purchase->Vendors->Add Vendors</p>
+                    <div class="form-group" style="margin-top:1.5%;display:block">
+                        <label for="product" style="font-weight:bold;padding-bottom:1.5%">Vendor</label>
+                        <select id="vendorName" asp-items="@(new SelectList(@ViewBag.VendorNames, "VendorId", "VendorName"))" class="selectVendorName form-control productType">
+                            <option value="default">Please select one</option>
+                        </select>
+                    </div>
+
+                    <p>Add your product with required quantity. To add new products, goto Menu->Products->Add Products</p>
+                    <div class="form-group" style="margin-top:1.5%;display:block">
+                        <label for="product" style="font-weight:bold;padding-bottom:1.5%">Product</label>
+                        <select id="productName" asp-items="@(new SelectList(@ViewBag.ProductNames, "ProductName", "ProductName"))" class="selectProductName form-control productType">
+                            <option value="default">Please select one</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            @*End<--Filter box setup-->End*@
+
+            <table class="table" id="table_id_products" style="margin-top:2%;margin-bottom:3%">
+                <thead>
+                    <tr>
+                        <th>
+                            Product Name
+                        </th>
+                        <th>
+                            Unit
+                        </th>
+                        <th>
+                            Purchase Unit Price
+                        </th>
+                        <th>
+                            Avaliable
+                        </th>
+                        <th>
+                            Required Quantity
+                        </th>
+                        <th>
+                            Total Price
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="productNameData">
+                            No Data
+                        </td>
+                        <td id="productUnit">
+                            No Data
+                        </td>
+                        <td id="productPrice">
+                            No Data
+                        </td>
+                        <td id="productAvaliable">
+                            No Data
+                        </td>
+                        <td id="productFinalQuantity">
+                            No Data
+                        </td>
+                        <td id="productTotalPrice">
+                            No Data
+                        </td>
+                        <td id="productAction">
+                            No Data
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+    @*End<--Section for selection and display of required products with required quantity-->End*@
+
+
+
+
+    @*Start<--Section for order summary with user-data insertion -->Start*@
+
+    <div style="padding-top:12vh;">
+
+        <div style="padding:3%;box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;border-radius:12px;">
+            <h1>Purchase Summary</h1>
+            <h5 style="margin-top:6%;margin-bottom:3%"><i>Purchase Table</i></h5>
+            <table class="table" id="table_id">
+                <thead>
+                    <tr>
+                        <th>
+                            ProductId
+                        </th>
+                        <th>
+                            PurchaseId
+                        </th>
+                        <th>
+                            Product Name
+                        </th>
+                        <th>
+                            Purchasing Quantity
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+
+            </table>
+            <div style="margin-top:6vh">
+                <h5 style="margin-bottom:3%"> <i>Purchase Summary</i></h5>
+
+                <div class="form-group" style="padding-bottom:1%">
+                    Admin Id:
+                    <label class="sr-only" for="" style="padding-bottom:0.5%">Logged Admin Id:</label>
+                    <input type="text" class="form-control" id="loggedId" value="@ViewBag.LoggedUserId" readonly>
+                    <input type="hidden" value="@ViewBag.LoggedUserId" id="loggedId" />
+                </div>
+                <div class="form-group">
+                    Total Amount
+                    <label class="sr-only" for="total_amount" style="padding-bottom:0.5%">Total Amount:</label>
+                    <input type="text" class="form-control" id="total_amount" value="0" readonly>
+                </div>
+                <div style="margin-top:2%">
+                    <button type="submit" class="btn btn-primary flex-column" id="paymentProceed" style="margin-right:1.5%">Proceed for Payment</button>
+                    <button type="button" class="btn btn-danger flex-column" id="discard">Discard</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*End<--Section for order summary with user-data insertion -->End*@
+
+
+@*Start<--CSS Styles-->Start*@
+
+
+@section Styles{
+    <style>
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+    }
+
+
+
+    @*End<--CSS Styles-->End*@
+
+
+
+    @*Start<--Js Scripts -->Start*@
+
+    @section scripts{
+
+
+    <script>
+
+
+        $(document).ready(function() {
+            var data = [];
+            var currentObject = {};
+            var totalAmount = 0;
+
+            //Start<-Function to handle the selection of different products from the list->Start
+
+            $('.selectProductName').on('change', function() {
+                if ($('#vendorName').val() == 'default') {
+                    alert('To Continue, Please Select any Vendor.');
+                    $('#productName').val("default");
+                } else {
+                    var obj = @Json.Serialize(@ViewBag.Products);
+
+                    for (var index in obj) {
+
+                        if (obj[index].productName == $(this).val()) {
+
+                            currentObject = obj[index];
+                            $('#productNameData').html(currentObject.productName);
+                            $('#productUnit').html(currentObject.unit);
+                            $('#productPrice').html(currentObject.purchaseUnitPrice);
+                            $('#productAvaliable').html(currentObject.avaliable);
+                            var element1 = '<div class="input-group number-spinner" >' +
+                                '<span class="input-group-btn">' +
+                                '<button class="btn btn-default form-control" style="border:1px solid gray;height:100%;" data-dir="down">-</button>' +
+                                '</span>' +
+                                '<input type="text" class="form-control text-center" style="max-width:10vw" value="0" id="productQuantity">' +
+                                '<span class="input-group-btn">' +
+                                '<button class="btn btn-default form-control" style="border:1px solid gray;height:100%;" data-dir="up">+</button>' +
+                                '</span></div>'
+                            $('#productFinalQuantity').html(element1);
+                            var element2 = '<input type="text" value="0" class="form-control" id="productFinalPrice"/>'
+                            $('#productTotalPrice').html(element2);
+                            var element3 = '<a  class="btn btn-primary" id="Add_item"  >Add</a> ';
+                            $('#productAction').html(element3)
+                        }
+                    }
+                }
+
+
+            })
+
+            //End<-Function to handle the selection of different products from the list->End
+
+
+            //Start<-Function to handle the selection of required quantity of product->Start
+
+            $(document).on('click', '.number-spinner button', function() {
+                var btn = $(this),
+                    oldValue = btn.closest('.number-spinner').find('input').val().trim(),
+                    newVal = 0;
+                amountVal = 0;
+                var spinId, amount;
+
+                if (btn.attr('data-dir') == 'up') {
+                    newVal = parseInt(oldValue) + 1;
+                } else {
+                    if (oldValue > 0) {
+                        newVal = parseInt(oldValue) - 1;
+                    } else {
+                        newVal = 0;
+                    }
+                }
+                var amount = $('#productPrice').html()
+                amountVal = newVal * parseInt(amount);
+                btn.closest('.number-spinner').find('input').val(newVal);
+                $("#productFinalPrice").val(amountVal);
+            });
+
+
+
+            //End<-Function to handle the selection of required quantity of product->End
+
+            //Datatable initialization
+
+            $('#table_id').DataTable({
+                "processing": true,
+                "serverSide": false,
+                "filter": true,
+                "columnDefs": [{
+                    "targets": [0, 1],
+                    "visible": false,
+                    "searchable": false
+                }],
+            });
+
+            ////Start<-Function to handle the product addition to the final list(order summary table)->Start
+
+            $(document).on('click', '#Add_item', function() {
+                var btn = $(this),
+                    tmpObject = {};
+
+                if ($("#productFinalPrice").val() != "0") {
+
+
+                    tmpObject.ProductId = parseInt(currentObject.productId);
+                    tmpObject.Qty = parseInt($('.number-spinner button').closest('.number-spinner').find('input').val().trim());
+                    tmpObject.Price = parseFloat($("#productFinalPrice").val());
+                    tmpObject.ProductName = currentObject.productName;
+                    tmpObject.UnitPrice = parseFloat(currentObject.purchaseUnitPrice);
+                    var tmpText = Math.floor(Date.now() / 1000) + '%%' + $('#vendorName').val()
+
+                    //js code to remove white spaces
+                    tmpText = tmpText.replace(/\s/g, '');
+                    tmpObject.PurchaseDetailsUniqueId = tmpText;
+                    data.push(tmpObject);
+                    //Adding row to datatable
+                    var t = $('#table_id').DataTable();
+                    t.row.add([tmpObject.ProductId, tmpObject.PurchaseDetailsUniqueId, tmpObject.ProductName, tmpObject.Qty, tmpObject.Price, '<a  class="btn btn-danger Remove_item"  data-dir="' + tmpObject.PurchaseDetailsUniqueId + '" >Remove</a>']).draw(false);
+                    totalAmount = totalAmount + parseInt(tmpObject.Price);
+                    $("#total_amount").val(totalAmount);
+
+
+                    $('#productNameData').html('No Data');
+                    $('#productUnit').html('No Data');
+                    $('#productPrice').html('No Data');
+                    $('#productAvaliable').html('No Data');
+                    $('#productFinalQuantity').html('No Data');
+                    $('#productTotalPrice').html('No Data');
+                    $('#productAction').html('No Data');
+                    $('#productName').val('default');
+
+                    $("html, body").animate({ scrollTop: $(document).height() }, "slow");
+
+                }
+            });
+
+
+            ////End<-Function to handle the product addition to the final list(order summary table)->End
+
+
+
+            ////Start<-Function to handle the product addition to the final list(order summary table)->Start
+
+            $(document).on('click', '.Remove_item', function() {
+                var myTable = $('#table_id').DataTable();
+                var _id = $(this).attr("data-dir");
+                for (let x = 0; x < data.length; x++) {
+                    if (data[x].PurchaseDetailsUniqueId == _id) {
+                        data.splice(x, 1);
+                        break;
+                    }
+                }
+                var data1 = myTable.rows().data();
+                data1.each(function(value, index) {
+                    if (value['1'] == _id) {
+                        myTable.row(index).remove().draw(false);
+                        totalAmount = totalAmount - parseInt(value['4']);
+                        $("#total_amount").val(totalAmount);
+                    }
+                });
+
+            });
+
+            ////End<-Function to handle the product addition to the final list(order summary table)->End
+
+
+
+            ////Start<-Function to handle the final data submission->Start
+
+            $("#paymentProceed").on("click", function() {
+                if (($("#total_amount").val() == 0)) {
+                    alert('Please Select any Products!');
+
+                } else {
+                    var itms = '';
+
+                    var today = new Date();
+
+                    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
+                    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+                    var dateTime = date + ' ' + time;
+
+                    var orderDetailsId;
+
+                    var vendorNames = @Json.Serialize(@ViewBag.VendorNames);
+                    var products = @Json.Serialize(@ViewBag.Products);
+                    var vendorRequiredName;
+                    for (let i = 0; i < vendorNames.length; i++) {
+                        if (parseInt(vendorNames[i].vendorId) === parseInt($('#vendorName').val())) {
+                            vendorRequiredName = vendorNames[i].vendorName
+                        }
+                    }
+                    var jData = {
+                        PurchaseDetailsUniqueId: data[0].PurchaseDetailsUniqueId,
+                        VendorId: $('#vendorName').val(),
+                        VendorName: vendorRequiredName,
+                        PurchaseAmount: $("#total_amount").val(),
+                        PurchaseDatetime: dateTime,
+                        AdminUserId: $('#loggedId').val()
+                    };
+                    $.ajax({
+                        url: '@Url.Action("SaveAndGet","Purchase")',
+                        type: "post",
+                        data: jData,
+                        dataType: "json",
+                        success: function(successdata) {
+                            for (var i = 0; i < data.length; i++) {
+
+                                var tempData = {
+                                    PurchaseId: data[i].PurchaseDetailsUniqueId + "%%" + i,
+                                    PurchaseDetailsId: successdata,
+                                    ProductId: data[i].ProductId,
+                                    ProductName: data[i].ProductName,
+                                    UnitPrice: data[i].UnitPrice,
+                                    Quantity: data[i].Qty,
+                                    Price: data[i].Price
+                                }
+
+                                $.ajax({
+                                    url: '@Url.Action("PurchaseSubmit","Purchase")',
+                                    type: "post",
+                                    data: tempData,
+                                    dataType: "json",
+                                    success: function(finaldata) {
+
+                                    }
+                                });
+
+                                var requiredProductDetails = {};
+                                for (let j = 0; j < products.length; j++) {
+                                    if (products[j].productId == parseInt(data[i].ProductId)) {
+
+                                        requiredProductDetails.ProductId = products[j].productId
+                                        requiredProductDetails.ProductName = products[j].productName
+                                        requiredProductDetails.ProductType = products[j].productType
+                                        requiredProductDetails.Unit = products[j].unit
+                                        requiredProductDetails.PurchaseUnitPrice = products[j].purchaseUnitPrice
+                                        requiredProductDetails.SellingUnitPrice = products[j].sellingUnitPrice
+                                        requiredProductDetails.Avaliable = products[j].avaliable + parseInt(data[i].Qty)
+                                    }
+                                }
+                                $.ajax({
+                                    url: '@Url.Action("ProductUpdate","Product")',
+                                    type: "post",
+                                    data: requiredProductDetails,
+                                    dataType: "string",
+                                    success: function(finaldata) {
+
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+                    alert("Purchase Details Submitted Successfully");
+                    history.go(0);
+                    window.location.href = '/Purchase/ShowPurchases';
+                }
+            })
+
+            //End<-Function to handle the final data submission->End
+
+            $('#discard').on('click', function() {
+
+                alert("All Details are discarded");
+                window.location.href = '/Purchase/Index';
+            })
+
+            //Css alteration using jqery
+
+            //$("#table_id_previous").addClass("btn btn-primary");
+
+            //Selectjs initialization
+
+            $('.selectProductType').select2();
+            $('.selectProductName').select2();
+        });
+
+    </script>
+
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/datatables/js/dataTables.bootstrap4.js"></script>
+
+}
+
+    @*End<--Js Scripts -->End*@

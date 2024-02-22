@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - OrderWebApplication</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/OrderWebApplication.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+
+
+    @using Microsoft.AspNetCore.Authorization
+    @inject IAuthorizationService authorizationService
+</head>
+<body>
+    @await RenderSectionAsync("Styles", required: false)
+    <header class="shadow">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-black border-bottom box-shadow mb-3" style="position: fixed;width:100%;z-index:99;top:0">
+            <div class="container-fluid">
+                <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">SBWA</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between ">
+                    <ul class="navbar-nav flex-grow-1" style="justify-content:flex-end;padding-right:5vw;">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-action="Manageuser" asp-controller="Account"><b>Change Password</b></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-action="Logout" asp-controller="Account"><b>Logout</b></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Sidebar -->
+        <div id="sidebarmenu">
+            <nav class="sidebar">
+
+                <!-- close sidebar menu -->
+                <div class="row" style="border:3px solid white;border-radius:12px;margin:2px;margin-top:3vh">
+                    <div class="column">
+                        <h6 style="margin-top:7%;margin-left:5%;padding-right:3%"><i>Supermarket Billing Web Application</i></h6>
+                    </div>
+                    <div class="dismiss column" style="margin-top:3vh">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                </div>
+
+                <ul class="list-unstyled menu-elements" style="margin-top:15%;font-size:15px">
+                    @if ((await authorizationService.AuthorizeAsync(User, "PurchaseRolePolicy")).Succeeded)
+                    {
+                        <li id="OtherSections_parent1">
+                            <a data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" role="button" aria-controls="otherSections">
+                                <i class="fas fa-money-check"></i>Purchase
+                            </a>
+                            <ul class="collapse list-unstyled " id="otherSections1">
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-action="Index" asp-controller="Purchase"><b>Add Purchase</b></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-action="Index" asp-controller="Vendor"><b>Vendors</b></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-action="ShowPurchases" asp-controller="Purchase"><b>Purchase List</b></a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    @if ((await authorizationService.AuthorizeAsync(User, "ProductRolePolicy")).Succeeded)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link " asp-action="ShowProducts" asp-controller="Product"><i class="fa fa-cart-shopping"></i>  <b>Products</b></a>
+                        </li>
+                    }
+
+
+                    @if ((await authorizationService.AuthorizeAsync(User, "ClaimRolePolicy")).Succeeded)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link " asp-action="ListOfUsers" asp-controller="Account"><i class="fa fa-user"></i> <b>Claims</b></a>
+                        </li>
+                    }
+
+
+                    @if ((await authorizationService.AuthorizeAsync(User, "SalesRolePolicy")).Succeeded)
+                    {
+                        <li id="OtherSections_parent2">
+                            <a data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" role="button" aria-controls="otherSections">
+                                <i class="fas fa-basket-shopping"></i>Sales
+                            </a>
+                            <ul class="collapse list-unstyled " id="otherSections2">
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-action="Index" asp-controller="Order"><b>Add Order</b></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-action="Index" asp-controller="Customer"><b>Customers</b></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-action="Index" asp-controller="OrderMerge"><b>Sales List</b></a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+
+                </ul>
+
+                <div class="to-top">
+                    <a class="btn btn-primary btn-customized-3" href="#" role="button">
+                        <i class="fas fa-arrow-up"></i> Top
+                    </a>
+                </div>
+
+                <div class="dark-light-buttons">
+                    <a class="btn btn-primary btn-customized-4 btn-customized-dark" href="#" role="button"> Dark</a>
+                    <a class="btn btn-primary btn-customized-4 btn-customized-light" href="#" role="button">Light</a>
+                </div>
+
+            </nav>
+        </div>
+        <!-- End sidebar -->
+        <!-- open sidebar menu -->
+        <a class="btn btn-primary btn-customized open-menu" href="#" role="button" style="margin-top:3%">
+            <i class="fas fa-align-left"></i> <span>Menu</span>
+        </a>
+    </header>
+    <div class="container" style="margin-top:10%">
+        <main role="main" class="pb-3">
+
+
+
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted" style="bottom:0;height:2%;margin-bottom:0">
+        <div class="container">
+            &copy; 2022 - OrderWebApplication - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,61 @@
+﻿@model OrderWebApplication.Entity.Models.Product
+
+@{
+    ViewData["Title"] = "Create_Product";
+}
+
+<div style="padding-bottom:7vh;margin:3%">
+
+    <div style="padding:3%;box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;border-radius:12px;">
+        <h2>Create New Product</h2>
+
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create_Product">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="ProductName" class="control-label" style="font-weight:bold"></label>
+                        <input asp-for="ProductName" class="form-control" />
+                        <span asp-validation-for="ProductName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ProductType" class="control-label" style="font-weight:bold"></label>
+                        <input asp-for="ProductType" class="form-control" />
+                        <span asp-validation-for="ProductType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Unit" class="control-label" style="font-weight:bold"></label>
+                        <input asp-for="Unit" class="form-control" />
+                        <span asp-validation-for="Unit" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PurchaseUnitPrice" class="control-label" style="font-weight:bold"></label>
+                        <input asp-for="PurchaseUnitPrice" class="form-control" />
+                        <span asp-validation-for="PurchaseUnitPrice" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SellingUnitPrice" class="control-label" style="font-weight:bold"></label>
+                        <input asp-for="SellingUnitPrice" class="form-control" />
+                        <span asp-validation-for="SellingUnitPrice" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Avaliable" class="control-label" style="font-weight:bold"></label>
+                        <input asp-for="Avaliable" class="form-control" value="0" readonly/>
+                        <span asp-validation-for="Avaliable" class="text-danger"></span>
+                    </div>
+                    <div class="form-group" style="margin-top:3vh">
+                        <input type="submit" value="Create" class="btn btn-primary" style="margin-right:1vh"/>
+                        <a asp-action="ShowProducts" class="btn btn-danger">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

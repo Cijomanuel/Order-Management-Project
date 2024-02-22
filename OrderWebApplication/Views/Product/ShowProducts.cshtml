@@ -1,0 +1,192 @@
+﻿@model IEnumerable<OrderWebApplication.Entity.Models.Product>
+
+@{
+    ViewData["Title"] = "ShowProducts";
+}
+
+
+<link href="~/lib/datatables/css/dataTables.bootstrap4.css" rel="stylesheet" />
+
+<div style="padding-bottom:7vh;margin:3%">
+
+    <div style="padding:3%;box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;border-radius:12px;">
+        <h2 style="margin-bottom:3%">List Of All Products</h2>
+        <p>
+            <a asp-action="Create_Product" class="btn btn-primary">Create New Product</a>
+        </p>
+        <div class="card" style="margin-top:3vh;margin-bottom:3vh">
+            <div class="card-body">
+
+                <h5>Filter box</h5>
+                <form asp-action="ShowProducts">
+                    <div class="form-group" style="margin-top:3vh;display:block">
+                        <div class="form-group" style="padding-bottom:1%;margin-top:2vh">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="col">
+                                        Product Type :
+                                        <select id="productType" asp-items="@(new SelectList(@ViewBag.ProductTypes, "ProductType", "ProductType"))" class="selectProductName form-control productType">
+                                            <option value="">Please select one</option>
+                                        </select>
+                                    </div>
+                                    Unit :
+                                    <select id="productUnit" asp-items="@(new SelectList(@ViewBag.ProductUnits, "Unit", "Unit"))" class="selectProductName form-control productType">
+                                        <option value="">Please select one</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <div class="col">
+
+                                        Product Name :
+                                        <input type="text" class="form-control" id="productName" value="" placeholder="Product Name">
+
+                                    </div>
+                                    > Available Stocks :
+                                        <input type="text" class="form-control" id="productStock" value="" placeholder="0">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <table class="table" id="table_id">
+            <thead>
+                <tr>
+                    <th>
+                        Product Id
+                    </th>
+                    <th>
+                        Product Name
+                    </th>
+                    <th>
+                        Product Type
+                    </th>
+                    <th>
+                        Unit
+                    </th>
+                    <th>
+                        Purchase Unit Price
+                    </th>
+                    <th>
+                        Selling Unit Price
+                    </th>
+                    <th>
+                        Avaliable
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@*Start<--Js Scripts -->Start*@
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            var obj = {};
+            $('#table_id').DataTable({
+                "processing": true,
+                "serverSide": false,
+                "filter": true,
+                "searching": false,
+                "ajax": {
+                    "url": '@Url.Action("ListJson","Product")',
+                    "type": 'POST',
+                    "data":obj,
+                    "datatype": "json"
+                },
+                "columnDefs": [{
+                    "targets": [0],
+                    "visible": false
+                }],
+                "columns": [
+                    { "data": 'productId', name: "ProductId", autoWidth: true },
+                    { "data": 'productName', name: "ProductName", autoWidth: true },
+                    { "data": 'productType', name: "ProductType", autoWidth: true },
+                    { "data": 'unit', name: "Unit", autoWidth: true },
+                    { "data": 'purchaseUnitPrice', name: "PurchaseUnitPrice", autoWidth: true },
+                    { "data": 'sellingUnitPrice', name: "SellingUnitPrice", autoWidth: true },
+                    { "data": 'avaliable', name: "Avaliable", autoWidth: true },
+                    {
+                        "render": function(data, type, full, meta) {
+
+                            return '<a asp-action="ProductEdit" asp-route-id="'+ full.productId+'" class="btn btn-primary">Edit</a> '+
+                            '<a asp-action="ProductDelete" asp-route-id="'+ full.productId+'" class="btn btn-danger">Delete</a>';
+
+                        }
+                    },
+
+                ],
+            });
+        })
+
+$('#productType').on('change', function() {
+    SearchProduct();
+})
+$('#productName').on('propertychange input', function() {
+    SearchProduct();
+})
+$('#productStock').on('propertychange input', function() {
+    SearchProduct();
+})
+$('#productUnit').on('change', function() {
+    SearchProduct();
+})
+function SearchProduct() {
+    $("#table_id").dataTable().fnDestroy();
+    var obj = {};
+    obj.productType = $('#productType').val();
+    obj.productStock = $('#productStock').val();
+    obj.productName = $('#productName').val();
+    obj.Unit = $('#productUnit').val();
+
+     $('#table_id').DataTable({
+                "processing": true,
+                "serverSide": false,
+                "filter": true,
+                "searching": false,
+                "ajax": {
+                    "url": '@Url.Action("ListJson","Product")',
+                    "type": 'POST',
+                    "data":obj,
+                    "datatype": "json"
+                },
+                "columnDefs": [{
+                    "targets": [0],
+                    "visible": false
+                }],
+                "columns": [
+                    { "data": 'productId', name: "ProductId", autoWidth: true },
+                    { "data": 'productName', name: "ProductName", autoWidth: true },
+                    { "data": 'productType', name: "ProductType", autoWidth: true },
+                    { "data": 'unit', name: "Unit", autoWidth: true },
+                    { "data": 'purchaseUnitPrice', name: "PurchaseUnitPrice", autoWidth: true },
+                    { "data": 'sellingUnitPrice', name: "SellingUnitPrice", autoWidth: true },
+                    { "data": 'avaliable', name: "Avaliable", autoWidth: true },
+                    {
+                        "render": function(data, type, full, meta) {
+
+                            return '<a asp-action="ProductEdit" asp-route-id="'+ full.productId+'" class="btn btn-primary">Edit</a> '+
+                            '<a asp-action="ProductDelete" asp-route-id="'+ full.productId+'" class="btn btn-danger">Delete</a>';
+
+                        }
+                    },
+
+                ],
+            });
+}
+    </script>
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/datatables/js/dataTables.bootstrap4.js"></script>
+}
+
+    @*End<--Js Scripts -->End*@
